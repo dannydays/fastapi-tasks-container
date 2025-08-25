@@ -12,9 +12,11 @@ from sqlalchemy.orm import sessionmaker, Session
 
 load_dotenv()
 
-DATABASE_URL = "sqlite:///./tasks.db"
+DB_URL = os.getenv("DATABASE_URL")
+username = os.getenv("USER")
+password = os.getenv("PASS")
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DB_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -71,9 +73,6 @@ def get_task_or_404(nome: str, db: Session = Depends(get_db)) -> TaskDB:
     return task_db
 
 app = FastAPI()
-
-username = os.getenv("USER")
-password = os.getenv("PASS")
 
 security = HTTPBasic()
 
