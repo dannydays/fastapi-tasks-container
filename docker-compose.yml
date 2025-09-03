@@ -1,20 +1,11 @@
-# --- docker-compose.yml ---
-
-# Definição dos serviços (contêineres).
 services:
-  # Nome do serviço, pode ser qualquer coisa que você queira.
-  fastapi-app:
-    # Use o Dockerfile no diretório atual para construir a imagem.
+  fastapi_tarefas:
     build: .
-    # Mapeie a porta 8000 do contêiner para a porta 8000 do host.
+    container_name: tarefas-api
     ports:
       - "8000:8000"
-    # Mapeie o diretório do seu código-fonte para o diretório de trabalho no contêiner.
-    # Isso permite que você edite o código no seu sistema local e as mudanças
-    # se reflitam automaticamente no contêiner.
     volumes:
       - .:/app
-    # Defina as variáveis de ambiente.
-    # Elas são carregadas do arquivo .env.
     env_file:
       - .env
+    command: ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
